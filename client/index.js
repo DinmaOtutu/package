@@ -14,11 +14,12 @@ const Index = () => {
   const [showingSTIFModal, setShowingSTIFModal] = useState(false);
 
   const hostUserId = 'host_user_1';
-
+console.log('hostUserId', hostUserId);
   useEffect(() => {
     setCalendarResponse(null);
 
     let url = `/api/calendar?hostUserId=${hostUserId}`;
+    console.log('url', url);
     if (guestUserId) url += `&guestUserId=${guestUserId}`;
     fetch(url)
       .then((response) => response.json())
@@ -28,6 +29,7 @@ const Index = () => {
   }, [guestUserId]);
 
   if (!calendarResponse) {
+    console.log('Loading...');
     return <div>Loading...</div>;
   }
 

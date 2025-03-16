@@ -8,10 +8,14 @@
  * @param {number} [status=200] - The HTTP status code.
  * @returns {Object} The JSON response.
  */
-const handleSuccess = (res, data, message = 'Success', status = 200) => {
+const handleSuccess = (res, data, status = 200, raw = false) => {
+    if (raw) {
+        return res.status(status).json(data);
+    }
+
     return res.status(status).json({
         status: 'success',
-        message,
+        message: 'Success',
         data,
     });
 };

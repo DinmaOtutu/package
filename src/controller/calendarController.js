@@ -15,16 +15,15 @@ const { handleSuccess, handleError } = require('../helpers/responseHandler');
 const getAvailableTimeSlots = async (req, res) => {
     try {
         const { hostUserId } = req.query;
-
         if (!hostUserId) {
             return handleError(res, 'hostUserId is required', 400);
         }
         const timeslots = await calendarService.getAvailableTimeSlots(hostUserId);
-        handleSuccess(res, {
+        return handleSuccess(res, {
             name: "Eng Test User",
             timeslotLengthMin: 60,
             timeslots,
-        })
+        }, 200, true);
     } catch (err) {
         return handleError(res, 'Server Error', 500);
     }

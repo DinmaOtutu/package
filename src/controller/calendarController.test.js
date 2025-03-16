@@ -1,9 +1,13 @@
+jest.mock('../../src/helpers/responseHandler', () => ({
+    handleSuccess: jest.fn(),
+    handleError: jest.fn(),
+}));
+
 const calendarController = require('./calendarController.js');
 const calendarService = require('../../src/services/calendarService');
 const { handleSuccess, handleError } = require('../../src/helpers/responseHandler');
 
 jest.mock('../../src/services/calendarService');
-jest.mock('../../src/helpers/responseHandler');
 
 describe('Calendar Controller - getAvailableTimeSlots', () => {
 
@@ -31,11 +35,16 @@ describe('Calendar Controller - getAvailableTimeSlots', () => {
         await calendarController.getAvailableTimeSlots(req, res);
 
         expect(calendarService.getAvailableTimeSlots).toHaveBeenCalledWith('host_user_1');
-        expect(handleSuccess).toHaveBeenCalledWith(res, {
-            name: 'Eng Test User',
-            timeslotLengthMin: 60,
-            timeslots: mockTimeslots,
-        });
+        expect(handleSuccess).toHaveBeenCalledWith(
+            res,
+            {
+                name: 'Eng Test User',
+                timeslotLengthMin: 60,
+                timeslots: mockTimeslots,
+            },
+            200,
+            true
+        );
     });
 
     it('should handle missing hostUserId', async () => {
