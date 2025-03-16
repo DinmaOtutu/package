@@ -29,6 +29,25 @@ const getAvailableTimeSlots = async (req, res) => {
     }
 };
 
+const getNonFreeTimeSlots = async (req, res) => {
+    try {
+        const { hostUserId } = req.query;
+
+        if (!hostUserId) {
+            return handleError(res, 'hostUserId is required', 400);
+        }
+
+        const busyTimes = await calendarService.getNonFreeTimes(hostUserId);
+
+        return handleSuccess(res, busyTimes, 200, true);
+
+    } catch (err) {
+        console.error('Error fetching non-free times:', err);
+        return handleError(res, 'Server Error', 500);
+    }
+};
+
 module.exports = {
-    getAvailableTimeSlots
+    getAvailableTimeSlots,
+    getNonFreeTimeSlots,
 };
